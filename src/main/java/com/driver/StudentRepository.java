@@ -34,24 +34,19 @@ public class StudentRepository {
         List<String> studentList = pairDB.getOrDefault(teacher, new ArrayList<>());
         studentList.add(student);
         pairDB.put(teacher, studentList);
-
         return "Successfully added";
     }
 
     Student getStudentFromDb(String student) {
-
         return studentDB.get(student);
     }
 
     Teacher getTeacherFromDb(String teacher) {
-
         return teacherDB.get(teacher);
     }
 
     List<String> getStudentList(String teacher) {
-
         List<String> studentNameList = pairDB.getOrDefault(teacher, new ArrayList<>());
-
         return studentNameList;
     }
 
@@ -70,7 +65,7 @@ public class StudentRepository {
     }
 
     public void deleteAllTeachers() {
-        for (String teacher : teacherDB.keySet()) {
+        for (String teacher : pairDB.keySet()) {
             List<String> StudentList = pairDB.get(teacher);
             for (String s : StudentList) {
                 if (studentDB.containsKey(s)) {
