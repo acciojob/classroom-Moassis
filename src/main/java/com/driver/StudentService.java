@@ -63,7 +63,7 @@ public class StudentService {
     }
 
     void deleteAllTeachers() {
-        studentRepository.teacherDB = new HashMap<>();
+        studentRepository.teacherDB.clear();
         return;
     }
 
