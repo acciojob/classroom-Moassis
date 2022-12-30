@@ -7,26 +7,28 @@ import java.util.List;
 
 @Repository
 public class StudentRepository {
-    HashMap<String, Student> studentDB = new HashMap<>();
-    HashMap<String, Teacher> teacherDB = new HashMap<>();
+    HashMap<Integer, Student> studentDB = new HashMap<>();
+    HashMap<Integer, Teacher> teacherDB = new HashMap<>();
     HashMap<Teacher, List<Student>> pairDB = new HashMap<>();
+    int studentNo = 0;
+    int teacherNo = 0;
 
     String addStudentToDb(Student student) {
 
-        String name = student.getName();
+        studentNo++;
 
         // Add it to the studentDB
-        studentDB.put(name, student);
+        studentDB.put(studentNo, student);
 
         return "Successfully added";
     }
 
     String addTeacherToDb(Teacher teacher) {
 
-        String name = teacher.getName();
+        teacherNo++;
 
         // Add it to the studentDB
-        teacherDB.put(name, teacher);
+        teacherDB.put(teacherNo, teacher);
 
         return "Successfully added";
     }
@@ -58,18 +60,26 @@ public class StudentRepository {
 
     Student getStudentFromDb(String name) {
 
-        if (studentDB.containsKey(name)) {
-            return studentDB.get(name);
-        } else
-            return null;
+        Student st = null;
+        for (Student s : studentDB.values()) {
+            if (s.getName().equals(name)) {
+                st = s;
+                break;
+            }
+        }
+        return st;
     }
 
     Teacher getTeacherFromDb(String name) {
 
-        if (teacherDB.containsKey(name)) {
-            return teacherDB.get(name);
-        } else
-            return null;
+        Teacher tr = null;
+        for (Teacher t : teacherDB.values()) {
+            if (t.getName().equals(name)) {
+                tr = t;
+                break;
+            }
+        }
+        return tr;
     }
 
     List<String> getStudentList(String teacher) {
