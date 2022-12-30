@@ -7,30 +7,23 @@ import java.util.List;
 
 @Repository
 public class StudentRepository {
-    HashMap<Integer, Student> studentDB = new HashMap<>();
-    HashMap<Integer, Teacher> teacherDB = new HashMap<>();
-    HashMap<Teacher, List<Student>> pairDB = new HashMap<>();
-    int studentNo = 0;
-    int teacherNo = 0;
-
-    // success
+    HashMap<String, Student> studentDB = new HashMap<>();
+    HashMap<String, Teacher> teacherDB = new HashMap<>();
+    HashMap<String, List<String>> pairDB = new HashMap<>();
 
     String addStudentToDb(Student student) {
-
-        studentNo++;
+        String name = student.getName();
 
         // Add it to the studentDB
-        studentDB.put(studentNo, student);
+        studentDB.put(name, student);
 
         return "Successfully added";
     }
 
     String addTeacherToDb(Teacher teacher) {
-
-        teacherNo++;
-
         // Add it to the studentDB
-        teacherDB.put(teacherNo, teacher);
+        String name = teacher.getName();
+        teacherDB.put(name, teacher);
 
         return "Successfully added";
     }
@@ -38,24 +31,9 @@ public class StudentRepository {
     String addPairToDb(String student, String teacher) {
 
         // Add it to the studentDB
-        Student st = null;
-        for (Student s : studentDB.values()) {
-            if (s.getName().equals(student)) {
-                st = s;
-                break;
-            }
-        }
-
-        Teacher tr = null;
-        for (Teacher t : teacherDB.values()) {
-            if (t.getName().equals(teacher)) {
-                tr = t;
-                break;
-            }
-        }
-        List<Student> studentList = tr.getStudentList();
-        studentList.add(st);
-        pairDB.put(tr, studentList);
+        List<String> studentList = pairDB.getOrDefault(teacher, new ArrayList<>());
+        studentList.add(student);
+        pairDB.put(teacher, studentList);
 
         return "Successfully added";
     }
@@ -86,30 +64,13 @@ public class StudentRepository {
 
     List<String> getStudentList(String teacher) {
 
-        Teacher tr = null;
-        for (Teacher t : teacherDB.values()) {
-            if (t.getName().equals(teacher)) {
-                tr = t;
-                break;
-            }
-        }
-        List<Student> studentList = tr.getStudentList();
-
-        List<String> studentNameList = new ArrayList<>();
-        for (int i = 0; i < studentList.size(); i++) {
-            studentNameList.add(studentList.get(i).getName());
-        }
+        List<String> studentNameList = pairDB.getOrDefault(teacher, new ArrayList<>());
 
         return studentNameList;
     }
 
     List<String> getAllStudentList() {
-        List<String> studentList = new ArrayList<>();
-        for (int s : studentDB.keySet()) {
-            String name = studentDB.get(s).getName();
-            studentList.add(name);
-        }
-        return studentList;
+        return new ArrayList<>(studentDB.keySet());
     }
 
 }
