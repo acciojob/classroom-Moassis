@@ -38,28 +38,14 @@ public class StudentRepository {
         return "Successfully added";
     }
 
-    Student getStudentFromDb(String name) {
+    Student getStudentFromDb(String student) {
 
-        Student st = null;
-        for (Student s : studentDB.values()) {
-            if (s.getName().equals(name)) {
-                st = s;
-                break;
-            }
-        }
-        return st;
+        return studentDB.get(student);
     }
 
-    Teacher getTeacherFromDb(String name) {
+    Teacher getTeacherFromDb(String teacher) {
 
-        Teacher tr = null;
-        for (Teacher t : teacherDB.values()) {
-            if (t.getName().equals(name)) {
-                tr = t;
-                break;
-            }
-        }
-        return tr;
+        return teacherDB.get(teacher);
     }
 
     List<String> getStudentList(String teacher) {
@@ -71,6 +57,28 @@ public class StudentRepository {
 
     List<String> getAllStudentList() {
         return new ArrayList<>(studentDB.keySet());
+    }
+
+    public void deleteTeacherByName(String teacher) {
+        List<String> studentList = pairDB.get(teacher);
+        for (String s : studentList) {
+            if (studentDB.containsKey(s)) {
+                studentDB.remove(s);
+            }
+        }
+        pairDB.remove(teacher);
+    }
+
+    public void deleteAllTeachers() {
+        for (String teacher : teacherDB.keySet()) {
+            List<String> StudentList = pairDB.get(teacher);
+            for (String s : StudentList) {
+                if (studentDB.containsKey(s)) {
+                    studentDB.remove(s);
+                }
+            }
+        }
+        pairDB.clear();
     }
 
 }

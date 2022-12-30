@@ -58,12 +58,12 @@ public class StudentService {
     }
 
     void deleteTeacherByName(String teacher) {
-        studentRepository.teacherDB.remove(teacher);
+        studentRepository.deleteTeacherByName(teacher);
         return;
     }
 
     void deleteAllTeachers() {
-        studentRepository.teacherDB.clear();
+        studentRepository.deleteAllTeachers();
         return;
     }
 
