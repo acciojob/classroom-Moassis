@@ -105,8 +105,8 @@ public class StudentRepository {
 
     List<String> getAllStudentList() {
         List<String> studentList = new ArrayList<>();
-        for (Student s : studentDB.values()) {
-            String name = s.getName();
+        for (int s : studentDB.keySet()) {
+            String name = studentDB.get(s).getName();
             studentList.add(name);
         }
         return studentList;
